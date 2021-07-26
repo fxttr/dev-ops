@@ -1,0 +1,6 @@
+export PATH="/usr/local/libexec/ccache:$PATH"
+export CCACHE_PATH="$HOME/Devel/FreeBSD/cache/"
+export MAKEOBJDIRPREFIX="$HOME/Devel/FreeBSD/obj"
+export COMPILER_TYPE=clang
+
+alias make="make -DNO_CLEAN -j5 "
