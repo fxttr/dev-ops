@@ -1,0 +1,36 @@
+#!/bin/sh
+
+BASE=/home/florian/Devel/DragonflyBSD/
+SRC_POINT=$BASE/src
+MOUNT_POINT=$BASE/mnt.vkernel
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+echo "[0] Creating disk"
+vnconfig -c vn0 /var/vkernel/rootimg.01
+disklabel -r -w vn0s0 auto
+disklabel -e vn0s0
+newfs /dev/vn0s0a
+mount /dev/vn0s0a $MOUNT_POINT
+
+cd $SRC_POINT
+
+echo "[1] Installing"
+make installworld DESTDIR=$MOUNT_POINT
+make distribution DESTDIR=$MOUNT_POINT
+
+echo "[2] Generate fstab"
+echo '/dev/vkd0s0a      /       ufs     rw      1  1' > $MOUNT_DIR/etc/fstab
+echo 'proc              /proc   procfs  rw      0  0' >> $MOUNT_DIR/etc/fstab
+
+echo "[3] Fixing ttys"
+echo 'console "/usr/libexec/getty Pc         cons25  on  secure' > $MOUNT_DIR/etc/ttys
+
+echo "[4] Cleaning up"
+umount $MOUNT_POINT
+vnconfig -u vn0
+
+echo "Done."
