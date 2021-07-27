@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd src
+make -DNO_MODULES buildkernel KERNCONF=VKERNEL64
+make -DNO_MODULES installkernel KERNCONF=VKERNEL64 DESTDIR=/var/vkernel
+cd -

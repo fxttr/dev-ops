@@ -1,0 +1,7 @@
+#!/bin/sh
+
+kldload if_bridge.ko
+kldload if_tap.ko
+ifconfig bridge0 create
+ifconfig bridge0 addm re0
+ifconfig bridge0 up

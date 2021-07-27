@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /var/vkernel
+./boot/kernel/kernel -m 64m -r /var/vkernel/rootimg.01 -I auto:bridge0
