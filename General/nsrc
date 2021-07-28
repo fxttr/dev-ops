@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ -z $1 ] || [ -z $2 ];
+then
+    echo "USAGE: nsrc NAME C/C++/CXX"
+    exit
+fi
+
+NAME=$1
+
+case $2 in
+    "C" | "c")
+        HEXT="h"
+	SEXT="c"
+	;;
+    "C++" | "c++")
+	HEXT="hpp"
+	SEXT="cpp"
+	;;
+    "CXX" | "cxx")
+	HEXT="hpp"
+	SEXT="cxx"
+	;;
+esac
+	      
+
+SRC=$NAME.$SEXT
+HEAD=$NAME.$HEXT
+
+touch $SRC
+touch $HEAD
+
+echo "#include \"$HEAD\"" >> $SRC
